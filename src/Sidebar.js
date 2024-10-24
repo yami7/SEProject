@@ -33,7 +33,7 @@ const Sidebar = () => {
             <button className="toggle-btn" onClick={toggleSidebar}>
                 {isOpen ? 'Close' : 'Open'}
             </button>
-            <h2 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>Trail The Trail</h2>
+            <h2 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>Track The Trail</h2>
             <ul>
                 <li>
                     <Link to="/Dashboard">

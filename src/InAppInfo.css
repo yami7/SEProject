@@ -1,10 +1,10 @@
 .in-app-info {
     padding: 20px;
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* Light green gradient background */
-    min-height: 100vh; /* Full height */
+    background-color: white; /* Light green gradient background */
+    min-height: 200vh;
 }
 .bg {
-    background-color: #8feeb2;
+    background-color: white;
     min-height: 100vh;
 }
 

@@ -12,9 +12,12 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/v1/user/admin/get-users');
+                const response = await axios.post('http://localhost:8000/v1/user/admin/get-users', {
+                    "page": 1,
+                    "perPage": 10
+                });
                 //https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app
-                setData(response.data); // Set data from API response(response.data)
+                setData(response.data?.data?.records); // Set data from API response(response.data)
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -49,7 +52,7 @@ const Users = () => {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Phone</th>
+                            <th>Admin</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +61,7 @@ const Users = () => {
                                 <td>{user.id}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
-                                <td>{user.phone}</td>
+                                <td>{user.isAdmin ? "Yes" : "No"}</td>
                             </tr>
                         ))}
                     </tbody>

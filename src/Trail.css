@@ -1,13 +1,19 @@
 .trailpageonly {
-    font-family: Arial, sans-serif; /* Set a clean font for the entire page */
-    background-color: #8feeb2; /* Light background for contrast */
-    min-height: 100vh;
+    padding: 20px;
+    background-color: white; /* Light green gradient background */
+    min-height: 200vh;
 }
 
 h1 {
     text-align: center;
     color: #388e3c; /* Dark green for the main title */
     margin: 20px 0; /* Space around the title */
+}
+h2 {
+    text-align: center;
+    color: #000000; /* Dark green for the title */
+    margin-bottom: 30px; /* Space below the title */
+    font-size: 2em; /* Increased font size */
 }
 
 .d-flex {

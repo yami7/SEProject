@@ -176,7 +176,7 @@ We will maintain certain data that you transmit to the Site for the purpose of m
 
   return (
     <div className='bg'style={{ padding: '20px' }}>
-      <h1>In-App Information</h1>
+      <h2>In-App Information</h2>
       <button onClick={() => openModal(privacyPolicy)} style={{ marginRight: '10px' }}>
         Privacy Policy
       </button>
@@ -211,13 +211,14 @@ We will maintain certain data that you transmit to the Site for the purpose of m
 };
 
 // Simple modal styles
+// Updated modal styles
 const modalStyle = {
   position: 'fixed',
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -228,7 +229,11 @@ const modalContentStyle = {
   padding: '20px',
   borderRadius: '5px',
   maxWidth: '600px',
-  width: '100%',
+  width: '90%', // Responsive width
+  maxHeight: '80vh', // Set a maximum height for the modal
+  overflowY: 'auto', // Enable vertical scrolling
+  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)', // Soft shadow
 };
+
 
 export default InAppInfo;

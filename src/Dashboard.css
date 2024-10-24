@@ -1,6 +1,6 @@
 .dashboard {
     padding: 20px;
-    background-color: #8feeb2; /* Light green gradient background */
+    background-color: white; /* Light green gradient background */
     min-height: 200vh; /* Ensure full height */
 }
 
@@ -14,7 +14,7 @@ h2 {
 .stats-container {
     display: flex;
     justify-content: space-around;
-    background-color: #8feeb2;
+    background-color: white;
     margin-top: 20px;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }

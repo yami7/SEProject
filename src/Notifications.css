@@ -1,12 +1,13 @@
 .notifications-container {
   padding: 20px;
-  background-color: #8feeb2;
-  min-height: 100vh;
+  background-color: white;
+  
 }
 
 .notifications-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  padding: 20px;
+  background-color: white; /* Light green gradient background */
+  min-height: 100vh;
 }
 
 .input-container {

@@ -18,7 +18,7 @@ const Notifications = () => {
 
   return (
     <div className="notifications-container">
-      <h1 className="notifications-title">Notifications</h1>
+      <h2>Notifications</h2>
       <div className="input-container">
         <input
           type="text"

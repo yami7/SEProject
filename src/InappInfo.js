@@ -10,7 +10,7 @@ const InAppInfo = () => {
 
 Last updated October 01, 2024
 This privacy notice for Trail Maps Limited ('Company', 'we', 'us', or 'our',), describes how and why we might collect, store, use, and/or share ('process') your information when you use our services ('Services'), such as when you:
-Download and use our mobile application (Trail Challenger), or any other application of ours that links to this privacy notice
+Download and use our mobile application (Track The Trail), or any other application of ours that links to this privacy notice
 Engage with us in other related ways, including any sales, marketing, or event.
   `;
 

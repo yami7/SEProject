@@ -3,10 +3,10 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     const [stats, setStats] = useState({
-        users: 0,
-        completedChallenges: 0,
-        liveChallenges: 0,
-        totalKMsHiked: 0,
+        users: 5,
+        completedChallenges: 1,
+        liveChallenges: 2,
+        totalKMsHiked: 35,
     });
 
     useEffect(() => {
@@ -39,7 +39,7 @@ const Dashboard = () => {
                 </div>
                 <div className="stat-card">
                     <h3>{stats.totalKMsHiked}</h3>
-                    <p>Total KMs Hiked</p>
+                    <p>Total Miles Hiked</p>
                 </div>
             </div>
         </div>

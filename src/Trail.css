@@ -1,0 +1,116 @@
+.trailpageonly {
+    font-family: Arial, sans-serif; /* Set a clean font for the entire page */
+    background-color: #8feeb2; /* Light background for contrast */
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: #388e3c; /* Dark green for the main title */
+    margin: 20px 0; /* Space around the title */
+}
+
+.d-flex {
+    display: flex; /* Flexbox for alignment */
+    justify-content: flex-end; /* Align to the right */
+}
+
+.btn {
+    border-radius: 5px; /* Rounded buttons */
+}
+
+.btn-primary {
+    background-color:   #28a745; /* Blue for primary buttons */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #28a745; /* Darker blue on hover */
+}
+
+.btn-success {
+    background-color: #28a745; /* Green for success buttons */
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Gray for secondary buttons */
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    width: 400px; /* Fixed width for the modal */
+}
+
+.form-label {
+    font-weight: bold; /* Bold labels */
+    margin-bottom: 5px; /* Space below labels */
+}
+
+.form-control {
+    width: 100%; /* Full width inputs */
+    padding: 10px; /* Comfortable padding */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 5px; /* Rounded input fields */
+    margin-bottom: 15px; /* Space between inputs */
+}
+
+.form-check-input {
+    margin-right: 5px; /* Space between checkbox and label */
+}
+
+.table {
+    width: 100%; /* Full width table */
+    margin-top: 20px; /* Space above table */
+    border-collapse: collapse; /* Collapse borders */
+}
+
+.table th, .table td {
+    padding: 10px; /* Comfortable cell padding */
+    text-align: left; /* Left-align text */
+    border-bottom: 1px solid #dee2e6; /* Light border below cells */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2; /* Light gray for odd rows */
+}
+
+.alert {
+    margin: 20px 0; /* Space above and below alerts */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green background for success */
+    border-color: #c3e6cb; /* Border color for success */
+    color: #155724; /* Dark green text for success */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Light red background for danger */
+    border-color: #f5c6cb; /* Border color for danger */
+    color: #721c24; /* Dark red text for danger */
+}

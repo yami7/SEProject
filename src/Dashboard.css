@@ -1,0 +1,47 @@
+.dashboard {
+    padding: 20px;
+    background-color: #8feeb2; /* Light green gradient background */
+    min-height: 200vh; /* Ensure full height */
+}
+
+h2 {
+    text-align: center;
+    color: #000000; /* Dark green for the title */
+    margin-bottom: 30px; /* Space below the title */
+    font-size: 2em; /* Increased font size */
+}
+
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: #8feeb2;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.stat-card {
+    background: #ffffff; /* White background for cards */
+    border-radius: 12px; /* Slightly larger border radius */
+    padding: 20px;
+    text-align: center;
+    width: 180px; /* Increased width */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+
+.stat-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 28px; /* Increased font size for numbers */
+    color: #388e3c; /* Dark green for numbers */
+}
+
+.stat-card p {
+    margin: 5px 0 0;
+    color: #555;
+    font-weight: 500; /* Slightly bolder text */
+}

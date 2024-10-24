@@ -1,0 +1,58 @@
+.in-app-info {
+    padding: 20px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* Light green gradient background */
+    min-height: 100vh; /* Full height */
+}
+.bg {
+    background-color: #8feeb2;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: black; /* Dark green for the title */
+    margin-bottom: 30px; /* Space below the title */
+}
+
+button {
+    background-color: #388e3c; /* Dark green button */
+    color: black; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 5px; /* Space between buttons */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #2e7d32; /* Darker green on hover */
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%; /* Responsive width */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    overflow: auto; /* Scrollable if content is too long */
+}
+
+.modal-content pre {
+    white-space: pre-wrap; /* Allow wrapping */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for better readability */
+    color: black; /* Darker text for contrast */
+}

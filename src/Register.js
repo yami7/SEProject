@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
 
-const Login = () => {
+const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const navigate = useNavigate(); // Initialize the navigate function
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(''); // Clear any previous error
+        setSuccess(''); // Clear previous success message
 
         // Frontend validation checks
         if (!validateEmail(email)) {
@@ -24,31 +26,28 @@ const Login = () => {
             return;
         }
 
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+
         try {
-            // Verify the email
-            const verificationResponse = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/user/verify-email', { email });
+            // Make the API call to register
+            const response = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/user/register', {
+                email,
+                password,
+            });
 
-            // Proceed only if email is verified
-            if (verificationResponse.data.verified) {
-                // Make the API call to login
-                const response = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/user/login', {
-                    email,
-                    password,
-                });
-
-                // Assuming the API returns a success status on successful login
-                if (response.data.success) {
-                    // Redirect to Users page upon successful validation
-                    navigate('/Dashboard');
-                } else {
-                    setError('Invalid email or password');
-                }
+            // Assuming the API returns a success status on successful registration
+            if (response.data.success) {
+                setSuccess('Registration successful! Please log in.');
+                setTimeout(() => navigate('/login'), 2000); // Redirect after 2 seconds
             } else {
-                setError('Email not verified. Please check your inbox.');
+                setError('Registration failed: ' + response.data.message);
             }
         } catch (err) {
             // Handle error responses
-            setError('Error during login: ' + (err.response?.data?.message || 'Please try again.'));
+            setError('Error during registration: ' + (err.response?.data?.message || 'Please try again.'));
         }
     };
 
@@ -59,9 +58,9 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
-            <h1 className="login-title">Admin Login</h1>
-            <form onSubmit={handleSubmit}>
+        <div>
+            <h1>Register</h1>
+            <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input
@@ -84,11 +83,23 @@ const Login = () => {
                         required
                     />
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        className="form-control"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                    />
+                </div>
                 {error && <div className="text-danger mb-3">{error}</div>}
-                <button type="submit" className="btn btn-primary">Login</button>
+                {success && <div className="text-success mb-3">{success}</div>}
+                <button type="submit" className="btn btn-primary">Register</button>
             </form>
         </div>
     );
 };
 
-export default Login;
+export default Register;

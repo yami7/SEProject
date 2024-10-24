@@ -1,3 +1,4 @@
+//Users.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Users.css';
@@ -12,9 +13,34 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/v1/user/admin/get-users');
-                //https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app
-                setData(response.data); // Set data from API response(response.data)
+                const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+                setData([{
+                    id: 1,
+                    name: 'yamini',
+                    email: "yamini@gmail.com",
+                    phone: "+1 3233175840"
+                },
+                {
+                    id: 2,
+                    name: 'Kinnari',
+                    email: "kinnari@gmail.com",
+                    phone: "+1 6263920348"
+                }, {
+                    id: 3,
+                    name: 'Parth',
+                    email: "parth@gmail.com",
+                    phone: "+1 3344383949"
+                }, {
+                    id: 4,
+                    name: 'Jatin',
+                    email: "jatin@gmail.com",
+                    phone: "+1 6784762526"
+                }, {
+                    id: 5,
+                    name: 'Nikhil',
+                    email: "nikhil@gmail.com",
+                    phone: "+1 7676465253"
+                }]);
             } catch (error) {
                 setError(error.message);
             } finally {

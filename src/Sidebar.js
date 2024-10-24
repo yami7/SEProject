@@ -1,27 +1,19 @@
 // Sidebar.js
 import React, { useState } from 'react';
-<<<<<<< HEAD
-import { FaHome, FaInfoCircle, FaServicestack, FaEnvelope } from 'react-icons/fa';
-=======
-import { FaInfoCircle, FaEnvelope, FaSignOutAlt } from 'react-icons/fa';
+import { FaBell, FaUsers, FaInfoCircle, FaCheckCircle, FaRunning, FaMapMarkerAlt } from 'react-icons/fa';
+import { GiTrail } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
-import LogoutModal from './Logout';
->>>>>>> AppTestingCMS
+import LogoutModal from './Logout'; // Ensure this path is correct
 import './Sidebar.css';
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
-<<<<<<< HEAD
-=======
     const [modalOpen, setModalOpen] = useState(false);
->>>>>>> AppTestingCMS
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
-<<<<<<< HEAD
-=======
     const handleLogout = () => {
         setModalOpen(true);
     };
@@ -36,37 +28,49 @@ const Sidebar = () => {
         setModalOpen(false);
     };
 
->>>>>>> AppTestingCMS
     return (
         <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
             <button className="toggle-btn" onClick={toggleSidebar}>
                 {isOpen ? 'Close' : 'Open'}
             </button>
-<<<<<<< HEAD
-            <h2 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>Menu</h2>
+            <h2 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>Trail The Trail</h2>
             <ul>
-                <li><a href="#home"><FaHome /> {isOpen && 'Home'}</a></li>
-                <li><a href="#about"><FaInfoCircle /> {isOpen && 'About'}</a></li>
-                <li><a href="#services"><FaServicestack /> {isOpen && 'Services'}</a></li>
-                <li><a href="#contact"><FaEnvelope /> {isOpen && 'Contact'}</a></li>
-            </ul>
-=======
-            <h2 className={`sidebar-title ${isOpen ? 'visible' : 'hidden'}`}>Dashboard</h2>
-            <ul>
-                <li><Link to="/about"><FaInfoCircle /> {isOpen && 'About'}</Link></li>
-                <li><Link to="/Users"><FaEnvelope /> {isOpen && 'Users'}</Link></li>
                 <li>
+                    <Link to="/Dashboard">
+                        <FaMapMarkerAlt /> {isOpen && 'Dashboard'}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/trail">
+                        <GiTrail /> {isOpen && 'Trails'}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/Users">
+                        <FaUsers /> {isOpen && 'Users'}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/Notifications">
+                        <FaBell /> {isOpen && 'Notifications'}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/InappInfo">
+                        <FaInfoCircle /> {isOpen && 'InappInfo'}
+                    </Link>
+                </li>
+                {/* <li>
                     <button onClick={handleLogout} className="logout-btn">
                         <FaSignOutAlt /> {isOpen && 'Logout'}
                     </button>
-                </li>
+                </li> */}
             </ul>
             <LogoutModal 
                 isOpen={modalOpen} 
                 onConfirm={confirmLogout} 
                 onCancel={cancelLogout} 
             />
->>>>>>> AppTestingCMS
         </div>
     );
 };

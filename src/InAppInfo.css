@@ -6,6 +6,7 @@
 .bg {
     background-color: white;
     min-height: 100vh;
+    color: white
 }
 
 h1 {
@@ -16,7 +17,7 @@ h1 {
 
 button {
     background-color: #388e3c; /* Dark green button */
-    color: black; /* White text */
+    color: white; /* White text */
     border: none;
     border-radius: 5px;
     padding: 10px 15px;

@@ -60,6 +60,11 @@ const Sidebar = () => {
                         <FaInfoCircle /> {isOpen && 'InappInfo'}
                     </Link>
                 </li>
+                <li>
+                    <Link to="/CountryManagement">
+                        <FaInfoCircle /> {isOpen && 'CountryManagement'}
+                    </Link>
+                </li>
                 {/* <li>
                     <button onClick={handleLogout} className="logout-btn">
                         <FaSignOutAlt /> {isOpen && 'Logout'}

@@ -62,7 +62,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                     <Link to="/CountryManagement">
-                        <FaFlag /> {isOpen && 'CountryManagement'}
+                        <FaFlag /> {isOpen && 'Country Management'}
                     </Link>
                 </li>
             

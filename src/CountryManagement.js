@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaEdit } from 'react-icons/fa';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
+import './Country.css';
 
-// Create a functional component
 const App = () => {
-  // Define state to hold API response
   const [response, setResponse] = useState([]);
-  const [loading, setLoading] = useState(true); // Start as loading true since the data will be fetched on mount
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // State for modal and form data
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // Track if we're editing an existing country
   const [formData, setFormData] = useState({
-    countryName: '',
-    image: null,
+    id: '',
+    title: '',
+    image: '',
   });
 
-  // Fetch data automatically when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = 
-        await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/country/admin/get-country', {
+        const result = await axios.post(
+          'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/get-country',
+          {
             headers: {
               'Content-Type': 'application/json',
             },
-          });
-        console.log('///',result)
+          }
+        );
+        console.log('///', result);
         setResponse(result.data.data.categories); // Access the categories array
       } catch (err) {
         setError('Error fetching data');
@@ -37,73 +41,87 @@ const App = () => {
     fetchData();
   }, []);
 
-  // Toggle modal visibility
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  // Handle form data changes (both text input and file input)
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === 'file') {
-      setFormData({
-        ...formData,
-        [name]: files[0], // Store the image file
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  // Handle form submission to save the country
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const newFormData = new FormData();
-    // newFormData.append('countryName', formData.title);
-    // newFormData.append('image', formData.image); // Append image file
-    let requestData = {
-        title: formData.title,
-        image: formData.image
-    }
+    const requestData = {
+      title: formData.title,
+      image: formData.image,
+    };
+
     try {
-      const response = await axios.post(
-        'https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/country/admin/add-country', // Your API URL
-        requestData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      // Add the new country to the list after successful submission
-      setResponse((prevResponse) => [
-        ...prevResponse,
-        response.data, // Assuming the response contains the new country object
-      ]);
+      const apiUrl = isEditing
+        ? 'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/edit-country'
+        : 'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/add-country';
+
+      const response = await axios.post(apiUrl, {
+        ...requestData,
+        ...(isEditing && { id: formData.id }), // Include ID if editing
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (isEditing) {
+        // Update the existing country in the list
+        setResponse((prevResponse) =>
+          prevResponse.map((category) =>
+            category._id === formData.id ? { ...category, title: formData.title, image: formData.image } : category
+          )
+        );
+      } else {
+        // Add the new country to the list
+        setResponse((prevResponse) => [...prevResponse, response.data]);
+      }
+
       toggleModal(); // Close the modal after submission
+      setIsEditing(false); // Reset editing state
     } catch (error) {
       setError('Error saving country');
     }
   };
 
+  const handleEditClick = (category) => {
+    setFormData({
+      id: category._id,
+      title: category.title,
+      image: category.image,
+    });
+    setIsEditing(true); // Mark as editing
+    toggleModal(); // Open the modal
+  };
+
   return (
-    <div style={{ padding: '20px' }}>
-      {/* Show loading spinner until data is fetched */}
-      {loading && <div>Loading...</div>}
+    <div className="container mt-5">
+      {loading && <div className="text-center">Loading...</div>}
+      {error && <div className="text-center text-danger">Error: {error}</div>}
 
-      {/* Show error message if there's an error */}
-      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+      <h2>User Countries</h2>
 
-      {/* If data is available, display the table */}
+      {/* Add New Country Button */}
+      <button onClick={toggleModal} className=".add-btn" style={styles.addButton}>
+        Add New Country
+      </button>
+
       {response && (
-        <table style={styles.table}>
+        <table className="table table-bordered table-striped">
           <thead>
             <tr>
               <th>ID</th>
               <th>Country</th>
               <th>Flag</th>
+              <th>Edit</th> {/* Add Edit column */}
             </tr>
           </thead>
           <tbody>
@@ -112,10 +130,16 @@ const App = () => {
                 <td>{category._id}</td>
                 <td>{category.title}</td>
                 <td>
-                  <img 
-                    src={category.image} 
-                    alt={`Flag of ${category.title}`} 
-                    style={styles.flagImage} 
+                  <img
+                    src={category.image}
+                    alt={`Flag of ${category.title}`}
+                    style={{ width: '50px', height: '30px' }}
+                  />
+                </td>
+                <td>
+                  <FaEdit
+                    onClick={() => handleEditClick(category)} // Open modal for editing
+                    style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
                   />
                 </td>
               </tr>
@@ -124,19 +148,10 @@ const App = () => {
         </table>
       )}
 
-      {/* Top-right corner button to open the modal */}
-      <button
-        onClick={toggleModal}
-        style={styles.addButton}
-      >
-        Add New Country
-      </button>
-
-      {/* Modal for adding a country */}
       {isModalOpen && (
         <div className="modal-overlay" style={modalOverlayStyles}>
           <div className="modal-content" style={modalContentStyles}>
-            <h2>Add Country</h2>
+            <h2>{isEditing ? 'Edit Country' : 'Add Country'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="title" className="form-label">Country Name</label>
@@ -176,45 +191,6 @@ const App = () => {
   );
 };
 
-// Inline CSS for table styling
-const styles = {
-  table: {
-    marginTop: '20px',
-    width: '100%',
-    borderCollapse: 'collapse',
-    border: '1px solid #ddd',
-  },
-  tableHeader: {
-    backgroundColor: '#f4f4f4',
-    textAlign: 'left',
-    padding: '10px',
-  },
-  tableCell: {
-    padding: '8px',
-    border: '1px solid #ddd',
-    textAlign: 'left',
-  },
-  flagImage: {
-    width: '50px', // Adjust flag size as needed
-    height: '30px',
-  },
-  addButton: {
-    padding: '8px 16px', // Smaller padding for a smaller button
-    backgroundColor: '#007bff', // Bootstrap primary color
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontSize: '14px', // Smaller font size
-    position: 'fixed',
-    top: '20px',
-    right: '20px',
-    zIndex: 1000,
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  },
-};
-
-// CSS for modal and button positioning
 const modalOverlayStyles = {
   position: 'fixed',
   top: 0,
@@ -234,6 +210,18 @@ const modalContentStyles = {
   borderRadius: '8px',
   width: '400px',
   boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+};
+
+const styles = {
+  addButton: {
+    position: 'fixed',   // Fixes the button to the screen, even when scrolling
+    top: '10px',         // Adjust the distance from the top of the screen
+    right: '10px',       // Adjust the distance from the right side of the screen
+    zIndex: 1000,        // Ensure the button stays above other elements
+    padding: '8px 15px', // Adds some padding for a better button size
+    fontSize: '14px',    // Smaller font size for a more compact button
+    borderRadius: '5px' // Rounded corners for the button
+  }
 };
 
 export default App;

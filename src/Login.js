@@ -26,15 +26,15 @@ const Login = () => {
 
         try {
             // Verify the email
-            const verificationResponse = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/user/verify-email', { email });
+            
 
             // Proceed only if email is verified
-            if (verificationResponse.data.verified) {
+         
                 // Make the API call to login
-                const response = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/user/login', {
+                const response = await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/user/login', {
                     email,
-                    password,
-                });
+                    password
+        });
 
                 // Assuming the API returns a success status on successful login
                 if (response.data.success) {
@@ -43,9 +43,7 @@ const Login = () => {
                 } else {
                     setError('Invalid email or password');
                 }
-            } else {
-                setError('Email not verified. Please check your inbox.');
-            }
+          
         } catch (err) {
             // Handle error responses
             setError('Error during login: ' + (err.response?.data?.message || 'Please try again.'));

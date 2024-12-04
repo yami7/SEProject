@@ -13,7 +13,7 @@ const Trail = () => {
         isHide: false,
     });
     const [challenges, setChallenges] = useState([]);
-    const [countries, setCountries] = useState([]);
+    const [countries, setCountries] = useState({ categories: [] });
     const [loading, setLoading] = useState(false);
     const [loadingCountries, setLoadingCountries] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -38,7 +38,7 @@ const Trail = () => {
         e.preventDefault();
         console.log("Submitting Form Data: ", formData);
         try {
-            const response = await axios.post('https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app/v1/challenge/admin/add-challenge', formData);
+            const response = await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/challenge/admin/add-challenge', formData);
             console.log('Success:', response.data);
             setChallenges(prevChallenges => [
                 ...prevChallenges,
@@ -69,7 +69,7 @@ const Trail = () => {
             }
         };
         try {
-            const response = await axios.get('http://localhost:8000/v1/challenge/get-challenges', config);
+            const response = await axios.get('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/challenge/get-challenges', config);
             setChallenges(response.data?.data);
             setSuccessMessage('Challenges fetched successfully!');
             console.log('Fetched challenges:', response.data);
@@ -84,7 +84,7 @@ const Trail = () => {
     const fetchCountries = async () => {
         setLoadingCountries(true);
         try {
-            const response = await axios.get('http://localhost:8000/v1/country/get-all-countries');
+            const response = await axios.get('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/country/get-all-countries');
             setCountries(response.data?.data); // Adjust based on the response structure
             console.log('Fetched countries:', response.data);
         } catch (error) {
@@ -203,20 +203,24 @@ const Trail = () => {
                 </div>
             )}
 
-            {/* Display the countries */}
-            <div className='country-list'>
-                <h2>Available Countries</h2>
-                {loadingCountries ? (
-                    <p>Loading countries...</p>
-                ) : (
-                    <ul>
-                        {countries.categories && countries.categories.length > 0 && countries.categories.map((country, index) => (
-                            <li key={index}>{country.title}</li> // Adjust based on the property names
-                        ))}
-                    </ul>
-                )}
-            </div>
-        </div>
+<div className='country-list'>
+    <h2>Available Countries</h2>
+    {loadingCountries ? (
+        <p>Loading countries...</p>
+    ) : (
+        <ul>
+            {/* Check if countries and categories are properly defined */}
+            {countries && countries.categories && countries.categories.length > 0 ? (
+                countries.categories.map((country, index) => (
+                    <li key={index}>{country.title}</li> // Adjust based on the property names
+                ))
+            ) : (
+                <p>No countries available</p> // Fallback message if categories is empty
+            )}
+        </ul>
+    )}
+</div>
+</div>
     );
 };
 

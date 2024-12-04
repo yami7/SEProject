@@ -65,11 +65,7 @@ const Sidebar = () => {
                         <FaFlag /> {isOpen && 'CountryManagement'}
                     </Link>
                 </li>
-                {/* <li>
-                    <button onClick={handleLogout} className="logout-btn">
-                        <FaSignOutAlt /> {isOpen && 'Logout'}
-                    </button>
-                </li> */}
+            
             </ul>
             <LogoutModal 
                 isOpen={modalOpen} 

@@ -12,6 +12,7 @@ import Dashboard from './Dashboard';
 import CountryManagement from './CountryManagement';
 
 
+
 const App = () => {
     const location = useLocation();
 
@@ -35,6 +36,7 @@ const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="/CountryManagement" element={<CountryManagement />} />
+                    
                 </Routes>
         
             </div>

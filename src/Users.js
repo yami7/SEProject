@@ -12,7 +12,7 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post('http://localhost:8000/v1/user/admin/get-users', {
+                const response = await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/user/admin/get-users', {
                     "page": 1,
                     "perPage": 10
                 });

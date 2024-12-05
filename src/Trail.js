@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Trail.css';
+import { FaEdit } from 'react-icons/fa';
+import './Country.css';
 
 const Trail = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,15 +15,17 @@ const Trail = () => {
         isHide: false,
     });
     const [challenges, setChallenges] = useState([]);
-    const [countries, setCountries] = useState({ categories: [] });
     const [loading, setLoading] = useState(false);
-    const [loadingCountries, setLoadingCountries] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const handleEditClick = () => {
+        // your code for handling the edit click event
+        console.log("Edit clicked");
+      };
+      
 
     useEffect(() => {
         fetchChallenges();
-        fetchCountries();
     }, []);
 
     const toggleForm = () => setIsOpen(!isOpen);
@@ -38,7 +42,7 @@ const Trail = () => {
         e.preventDefault();
         console.log("Submitting Form Data: ", formData);
         try {
-            const response = await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/challenge/admin/add-challenge', formData);
+            const response = await axios.post('https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/challenge/admin/add-challenge', formData);
             console.log('Success:', response.data);
             setChallenges(prevChallenges => [
                 ...prevChallenges,
@@ -69,7 +73,7 @@ const Trail = () => {
             }
         };
         try {
-            const response = await axios.get('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/challenge/get-challenges', config);
+            const response = await axios.post('https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/challenge/get-challenges', config);
             setChallenges(response.data?.data);
             setSuccessMessage('Challenges fetched successfully!');
             console.log('Fetched challenges:', response.data);
@@ -81,24 +85,11 @@ const Trail = () => {
         }
     };
 
-    const fetchCountries = async () => {
-        setLoadingCountries(true);
-        try {
-            const response = await axios.get('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/country/get-all-countries');
-            setCountries(response.data?.data); // Adjust based on the response structure
-            console.log('Fetched countries:', response.data);
-        } catch (error) {
-            console.error('Error fetching countries:', error.response ? error.response.data : error.message);
-        } finally {
-            setLoadingCountries(false);
-        }
-    };
-
     return (
         <div className='trailpageonly'>
             <h2>Trails</h2>
             <div className='d-flex float-right'>
-                <button onClick={toggleForm} className="btn btn-primary col-2">Add Trail</button>
+                <button onClick={toggleForm} className=".add-btn">Add Trail</button>
             </div>
 
             {isOpen && (
@@ -175,7 +166,7 @@ const Trail = () => {
                 <p>Loading challenges...</p>
             ) : (
                 <div>
-                    <h2>Active Trails</h2>
+                    
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                     <table className="table table-striped">
@@ -184,8 +175,11 @@ const Trail = () => {
                                 <th>Id</th>
                                 <th>Title</th>
                                 <th>Distance</th>
-                                <th>Hide</th>
-                                <th>Create Date</th>
+                                <th>Challenge Type</th>
+                                <th>Elevation</th>
+                                <th>Difficulty level</th>
+                                <th>Created Date</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -193,33 +187,23 @@ const Trail = () => {
                                 <tr key={challenge.id}>
                                     <td>{challenge.id}</td>
                                     <td>{challenge.title}</td>
-                                    <td>{challenge.distance} Miles</td>
-                                    <td>{challenge.isHide ? 'Yes' : 'No'}</td>
-                                    <td>{Date(challenge.createdAt)}</td>
+                                    <td>{challenge.distance}</td>
+                                    <td>{challenge.challengeType}</td>
+                                    <td>{challenge.elevation}</td>
+                                    <td>{challenge.difficulty}</td>
+                                    <td>{challenge.createdAt}</td>
+                                    <td>
+                                        <FaEdit
+                                        onClick={() => handleEditClick(challenge)} // Open modal for editing
+                                        style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
+                                        />
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             )}
-
-<div className='country-list'>
-    <h2>Available Countries</h2>
-    {loadingCountries ? (
-        <p>Loading countries...</p>
-    ) : (
-        <ul>
-            {/* Check if countries and categories are properly defined */}
-            {countries && countries.categories && countries.categories.length > 0 ? (
-                countries.categories.map((country, index) => (
-                    <li key={index}>{country.title}</li> // Adjust based on the property names
-                ))
-            ) : (
-                <p>No countries available</p> // Fallback message if categories is empty
-            )}
-        </ul>
-    )}
-</div>
 </div>
     );
 };

@@ -22,7 +22,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/get-country',
+          'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/get-country',
           {
             headers: {
               'Content-Type': 'application/json',
@@ -61,12 +61,12 @@ const App = () => {
 
     try {
       const apiUrl = isEditing
-        ? 'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/edit-country'
-        : 'https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/add-country';
+        ? 'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/edit-country'
+        : 'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/add-country';
 
       const response = await axios.post(apiUrl, {
         ...requestData,
-        ...(isEditing && { id: formData.id }), // Include ID if editing
+        ...(isEditing && { _id: formData.id }), // Include ID if editing
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const App = () => {
       {loading && <div className="text-center">Loading...</div>}
       {error && <div className="text-center text-danger">Error: {error}</div>}
 
-      <h2>User Countries</h2>
+      <h2>Countries list</h2>
 
       {/* Add New Country Button */}
       <button onClick={toggleModal} className=".add-btn" style={styles.addButton}>

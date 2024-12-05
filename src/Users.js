@@ -12,7 +12,7 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post('https://a270-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/user/admin/get-users', {
+                const response = await axios.post('https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/user/admin/get-users', {
                     "page": 1,
                     "perPage": 10
                 });
@@ -43,7 +43,7 @@ const Users = () => {
 
     return (
         <div className="background-container">
-            <div className="container mt-5">
+            <div className="container">
                 <h2>User Data</h2>
 
                 <table className="table table-striped">

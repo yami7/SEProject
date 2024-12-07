@@ -56,9 +56,9 @@ const Trail = () => {
                 );
                 setSuccessMessage('Challenge added successfully!');
             }
-            setChallenges(prevChallenges => [
+            setChallenges((prevChallenges) => [
                 ...prevChallenges,
-                response.data // Assuming the response contains the new or updated challenge
+                response.data, // Assuming the response contains the new or updated challenge
             ]);
             setErrorMessage('');
             toggleForm();
@@ -75,7 +75,9 @@ const Trail = () => {
         setErrorMessage('');
         setSuccessMessage('');
         try {
-            const response = await axios.post('https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/get-challenges');
+            const response = await axios.post(
+                'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/get-challenges'
+            );
             const challenges = Object.values(response.data?.data || {}).flat(); // Flatten the categories into a single array
             setChallenges(challenges);
             setSuccessMessage('Challenges fetched successfully!');
@@ -101,72 +103,19 @@ const Trail = () => {
         toggleForm();
     };
 
-    
+    // Redirect to NewChallenge page
+    const handleAddTrailClick = () => {
+        navigate('/NewChallenge'); // Ensure this route is set up in your router configuration
+    };
 
     return (
-        <div className='trailpageonly'>
+        <div className="trailpageonly">
             <h2>Trails</h2>
-            <div className='d-flex float-right'>
-                <button onClick={toggleForm} className="add-btn">Add Trail</button>
+            <div className="d-flex float-right">
+                <button onClick={handleAddTrailClick} className="add-btn">
+                    Add Trail
+                </button>
             </div>
-
-            {isOpen && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h2>{editingChallenge ? 'Edit Trail' : 'Add Trail'}</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label htmlFor="distance" className="form-label">Distance</label>
-                                <input
-                                    type="number"
-                                    id="distance"
-                                    name="distance"
-                                    className="form-control"
-                                    value={formData.distance}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="title" className="form-label">Title</label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    className="form-control"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3 form-check">
-                                <input
-                                    type="checkbox"
-                                    id="withRedemption"
-                                    name="withRedemption"
-                                    className="form-check-input"
-                                    checked={formData.withRedemption}
-                                    onChange={handleChange}
-                                />
-                                <label htmlFor="withRedemption" className="form-check-label">With Redemption</label>
-                            </div>
-                            <div className="mb-3 form-check">
-                                <input
-                                    type="checkbox"
-                                    id="isHide"
-                                    name="isHide"
-                                    className="form-check-input"
-                                    checked={formData.isHide}
-                                    onChange={handleChange}
-                                />
-                                <label htmlFor="isHide" className="form-check-label">Hide</label>
-                            </div>
-                            <button type="submit" className="btn btn-success">Submit</button>
-                            <button type="button" className="btn btn-secondary" onClick={toggleForm}>Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            )}
 
             {loading ? (
                 <p>Loading challenges...</p>
@@ -188,28 +137,33 @@ const Trail = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {challenges.length > 0 && challenges.map((challenge) => (
-                                <tr key={challenge._id}>
-                                    <td>{challenge._id}</td>
-                                    <td>{challenge.title}</td>
-                                    <td>{challenge.distance}</td>
-                                    <td>{challenge.challengeType || 'N/A'}</td>
-                                    <td>{challenge.elevation}</td>
-                                    <td>{challenge.difficulty}</td>
-                                    <td>{new Date(challenge.createdAt).toLocaleDateString()}</td>
-                                    <td>
-                                    <FaEdit
-                                        onClick={() => handleEditClick(challenge)} // Open modal for editing
-                                        style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
+                            {challenges.length > 0 &&
+                                challenges.map((challenge) => (
+                                    <tr key={challenge._id}>
+                                        <td>{challenge._id}</td>
+                                        <td>{challenge.title}</td>
+                                        <td>{challenge.distance}</td>
+                                        <td>{challenge.challengeType || 'N/A'}</td>
+                                        <td>{challenge.elevation}</td>
+                                        <td>{challenge.difficulty}</td>
+                                        <td>{new Date(challenge.createdAt).toLocaleDateString()}</td>
+                                        <td>
+                                            <FaEdit
+                                                onClick={() => handleEditClick(challenge)} // Open modal for editing
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    color: '#28a745',
+                                                    fontSize: '20px',
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>
             )}
-</div>
+        </div>
     );
 };
 

@@ -46,12 +46,17 @@ input, select, textarea {
     border-radius: 4px; /* Rounded corners */
     width: auto; /* Allow the button to shrink based on the content */
     display: inline-block; /* Ensure compact width */
-    background-color: #007bff;
+    background-color: #008000;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .create-button:hover {
-    background-color: #0056b3;
+    background-color: #008000;
+}
+
+.btn btn-primary{
+    color:#008000
+
 }

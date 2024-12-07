@@ -106,7 +106,7 @@ const App = () => {
    const handleDeleteClick = async (id) => {
     try {
       const response = await axios.post(
-        'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/delete-admin',
+        'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/delete-country',
         { id }, // Send the id to delete
         {
           headers: {

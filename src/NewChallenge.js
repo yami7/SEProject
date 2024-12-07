@@ -1,22 +1,3 @@
-// "coordinates": [
-//     {
-//         "longitude": 114.1386328374189,
-//         "latitude": 22.27983241126931
-//     },
-//     {
-//         "longitude": 114.135657598874,
-//         "latitude": 22.27934880963214
-//     },
-//     {
-//         "longitude": 114.1375258816053,
-//         "latitude": 22.27599517911032
-//     },
-//     {
-//         "longitude": 114.149515705349,
-//         "latitude": 22.27118410260248
-//     }
-// ]
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './NewChallenge.css';
@@ -96,7 +77,7 @@ const NewChallenge = ({ initialData }) => {
             console.log('API Response:', response.data);
 
             if (response.data) {
-                setSuccess('Challenge created successfully!');
+                setSuccess('Challenge added successfully!');
                 setFormData(response.data);
                 // setFormData({
                 //     title: '',
@@ -120,17 +101,17 @@ const NewChallenge = ({ initialData }) => {
                 //     },
                 // });
             } else {
-                setError('Failed to create challenge: ' + (response.data.message || 'Unexpected error.'));
+                setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
             }
         } catch (err) {
-            console.error('Error creating challenge:', err.response?.data || err.message);
-            setError('Error creating challenge: ' + (err.response?.data?.message || 'Please try again.'));
+            console.error('Error adding challenge:', err.response?.data || err.message);
+            setError('Error adding challenge: ' + (err.response?.data?.message || 'Please try again.'));
         }
     };
 
     return (
         <div>
-            <h1>Create New Challenge</h1>
+            <h1>Add New Challenge</h1>
             <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: 'auto' }}>
                 <div className="mb-3">
                     <label className="form-label">Title</label>
@@ -267,7 +248,7 @@ const NewChallenge = ({ initialData }) => {
                 </div> */}
                 {error && <div className="text-danger mb-3">{error}</div>}
                 {success && <div className="text-success mb-3">{success}</div>}
-                <button type="submit" className="btn btn-primary">Create</button>
+                <button type="submit" className="btn btn-primary">Add</button>
             </form>
         </div>
     );

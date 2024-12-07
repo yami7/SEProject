@@ -1,6 +1,6 @@
 // Sidebar.js
 import React, { useState } from 'react';
-import { FaBell, FaUsers, FaInfoCircle, FaCheckCircle, FaRunning,FaFlag,FaMapMarkerAlt } from 'react-icons/fa';
+import { FaBell, FaUsers, FaInfoCircle,FaFlag,FaMapMarkerAlt } from 'react-icons/fa';
 import { GiTrail } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 import LogoutModal from './Logout'; // Ensure this path is correct

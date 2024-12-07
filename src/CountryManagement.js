@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit,FaTrash } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
 import './Country.css';
 
@@ -22,7 +22,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/get-country',
+          'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/get-country',
           {
             headers: {
               'Content-Type': 'application/json',
@@ -61,8 +61,8 @@ const App = () => {
 
     try {
       const apiUrl = isEditing
-        ? 'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/edit-country'
-        : 'https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/country/admin/add-country';
+        ? 'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/edit-country'
+        : 'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/add-country';
 
       const response = await axios.post(apiUrl, {
         ...requestData,
@@ -87,6 +87,7 @@ const App = () => {
 
       toggleModal(); // Close the modal after submission
       setIsEditing(false); // Reset editing state
+      window.location.reload(); 
     } catch (error) {
       setError('Error saving country');
     }
@@ -101,6 +102,33 @@ const App = () => {
     setIsEditing(true); // Mark as editing
     toggleModal(); // Open the modal
   };
+   // Handle delete click - sends id to the backend for deletion
+   const handleDeleteClick = async (id) => {
+    try {
+      const response = await axios.post(
+        'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/delete-country',
+        { id }, // Send the id to delete
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      // Remove the deleted country from the list
+      setResponse((prevResponse) =>
+        prevResponse.filter((category) => category._id !== id)
+      );
+
+      // Optionally, set a success message here
+      console.log('Country deleted successfully:', response.data);
+    } catch (error) {
+      setError('Error deleting country');
+      console.error('Error deleting country:', error);
+    }
+  };
+
+  
 
   return (
     <div className="container mt-5">
@@ -122,6 +150,7 @@ const App = () => {
               <th>Country</th>
               <th>Flag</th>
               <th>Edit</th> {/* Add Edit column */}
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -139,6 +168,12 @@ const App = () => {
                 <td>
                   <FaEdit
                     onClick={() => handleEditClick(category)} // Open modal for editing
+                    style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
+                  />
+                </td>
+                <td>
+                  <FaTrash
+                    onClick={() => handleDeleteClick(category._id)} // Open modal for editing
                     style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
                   />
                 </td>

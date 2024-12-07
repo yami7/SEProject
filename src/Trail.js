@@ -18,12 +18,9 @@ const Trail = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const handleEditClick = () => {
-        // your code for handling the edit click event
-        console.log("Edit clicked");
-      };
-      
+    const [editingChallenge, setEditingChallenge] = useState(null);
 
+    // Fetch challenges from API
     useEffect(() => {
         fetchChallenges();
     }, []);
@@ -40,20 +37,27 @@ const Trail = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting Form Data: ", formData);
         try {
-            const response = await axios.post('https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/challenge/admin/add-challenge', formData);
-            console.log('Success:', response.data);
+            let response;
+            if (editingChallenge) {
+                // Edit existing challenge
+                response = await axios.put(
+                    `https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/update-challenge/${editingChallenge._id}`,
+                    formData
+                );
+                setSuccessMessage('Challenge updated successfully!');
+            } else {
+                // Add new challenge
+                response = await axios.post(
+                    'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/add-challenge',
+                    formData
+                );
+                setSuccessMessage('Challenge added successfully!');
+            }
             setChallenges(prevChallenges => [
                 ...prevChallenges,
-                {
-                    id: response.data.id || prevChallenges.length + 1,
-                    title: formData.title,
-                    distance: formData.distance,
-                    isHide: formData.isHide,
-                }
+                response.data // Assuming the response contains the new or updated challenge
             ]);
-            setSuccessMessage('Trail added successfully!');
             setErrorMessage('');
             toggleForm();
         } catch (error) {
@@ -63,20 +67,16 @@ const Trail = () => {
         }
     };
 
+    // Fetch challenges from the API
     const fetchChallenges = async () => {
         setLoading(true);
         setErrorMessage('');
         setSuccessMessage('');
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
         try {
-            const response = await axios.post('https://a9da-2600-6c50-6700-fdf9-c3c-f6d4-2059-523b.ngrok-free.app/v1/challenge/get-challenges', config);
-            setChallenges(response.data?.data);
+            const response = await axios.post('https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/get-challenges');
+            const challenges = Object.values(response.data?.data || {}).flat(); // Flatten the categories into a single array
+            setChallenges(challenges);
             setSuccessMessage('Challenges fetched successfully!');
-            console.log('Fetched challenges:', response.data);
         } catch (error) {
             setErrorMessage(error.response ? error.response.data.message : error.message);
             console.error('Error fetching challenges:', error.response ? error.response.data : error.message);
@@ -85,17 +85,33 @@ const Trail = () => {
         }
     };
 
+    // Handle editing of a challenge
+    const handleEditClick = (challenge) => {
+        setEditingChallenge(challenge);
+        setFormData({
+            title: challenge.title,
+            distance: challenge.distance,
+            image: challenge.image,
+            price: challenge.price,
+            withRedemption: challenge.withRedemption,
+            isHide: challenge.isHide,
+        });
+        toggleForm();
+    };
+
+    
+
     return (
         <div className='trailpageonly'>
             <h2>Trails</h2>
             <div className='d-flex float-right'>
-                <button onClick={toggleForm} className=".add-btn">Add Trail</button>
+                <button onClick={toggleForm} className="add-btn">Add Trail</button>
             </div>
 
             {isOpen && (
                 <div className="modal-overlay">
                     <div className="modal-content">
-                        <h2>Add Trails</h2>
+                        <h2>{editingChallenge ? 'Edit Trail' : 'Add Trail'}</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="distance" className="form-label">Distance</label>
@@ -109,18 +125,6 @@ const Trail = () => {
                                     required
                                 />
                             </div>
-                            {/* <div className="mb-3">
-                                <label htmlFor="price" className="form-label">Price</label>
-                                <input
-                                    type="number"
-                                    id="price"
-                                    name="price"
-                                    className="form-control"
-                                    value={formData.price}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div> */}
                             <div className="mb-3">
                                 <label htmlFor="title" className="form-label">Title</label>
                                 <input
@@ -166,7 +170,6 @@ const Trail = () => {
                 <p>Loading challenges...</p>
             ) : (
                 <div>
-                    
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                     <table className="table table-striped">
@@ -183,17 +186,17 @@ const Trail = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {challenges.length > 0 && challenges.map((challenge, index) => (
-                                <tr key={challenge.id}>
-                                    <td>{challenge.id}</td>
+                            {challenges.length > 0 && challenges.map((challenge) => (
+                                <tr key={challenge._id}>
+                                    <td>{challenge._id}</td>
                                     <td>{challenge.title}</td>
                                     <td>{challenge.distance}</td>
-                                    <td>{challenge.challengeType}</td>
+                                    <td>{challenge.challengeType || 'N/A'}</td>
                                     <td>{challenge.elevation}</td>
                                     <td>{challenge.difficulty}</td>
-                                    <td>{challenge.createdAt}</td>
+                                    <td>{new Date(challenge.createdAt).toLocaleDateString()}</td>
                                     <td>
-                                        <FaEdit
+                                    <FaEdit
                                         onClick={() => handleEditClick(challenge)} // Open modal for editing
                                         style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
                                         />

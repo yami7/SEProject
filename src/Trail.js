@@ -3,8 +3,10 @@ import axios from 'axios';
 import './Trail.css';
 import { FaEdit } from 'react-icons/fa';
 import './Country.css';
+import { useNavigate } from 'react-router-dom';
 
 const Trail = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
         distance: 0,

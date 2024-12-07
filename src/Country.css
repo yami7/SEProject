@@ -2,7 +2,7 @@
     position: fixed; /* Fixes the button to the screen */
     top: 10px; /* Distance from the top of the screen */
     right: 10px; /* Distance from the right side of the screen */
-    background-color: #007bff; /* Blue background color */
+    background-color: #008000; /* Blue background color */
     color: white; /* White text color */
     padding: 10px 20px; /* Adds padding inside the button */
     font-size: 16px; /* Font size */

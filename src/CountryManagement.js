@@ -61,8 +61,8 @@ const App = () => {
 
     try {
       const apiUrl = isEditing
-        ? 'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/edit-country'
-        : 'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/add-country';
+        ? 'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/edit-country'
+        : 'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/add-country';
 
       const response = await axios.post(apiUrl, {
         ...requestData,
@@ -106,7 +106,7 @@ const App = () => {
    const handleDeleteClick = async (id) => {
     try {
       const response = await axios.post(
-        'https://a2f3-2600-6c50-6700-fdf9-8843-1f2a-e5bb-8e81.ngrok-free.app/v1/country/admin/delete-country',
+        'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/delete-admin',
         { id }, // Send the id to delete
         {
           headers: {

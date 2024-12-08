@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaEdit,FaTrash } from 'react-icons/fa';
+import { FaStore,FaTrash } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap is imported
 import './Country.css';
 import API_URL from './configapi.js';
@@ -136,11 +136,11 @@ const App = () => {
       {loading && <div className="text-center">Loading...</div>}
       {error && <div className="text-center text-danger">Error: {error}</div>}
 
-      <h2>Countries List</h2>
+      <h2>Product List</h2>
 
-      {/* Add New Country Button */}
+      
       <button onClick={toggleModal} className=".add-btn" style={styles.addButton}>
-        Add New Country
+        Add New Product
       </button>
 
       {response && (
@@ -148,9 +148,9 @@ const App = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Country</th>
-              <th>Flag</th>
-              <th>Edit</th> {/* Add Edit column */}
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Image</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -159,17 +159,12 @@ const App = () => {
               <tr key={category._id}>
                 <td>{category._id}</td>
                 <td>{category.title}</td>
+                <td>{category.Price}</td>
                 <td>
                   <img
                     src={category.image}
-                    alt={`Flag of ${category.title}`}
+                    alt={`Product of ${category.title}`}
                     style={{ width: '50px', height: '30px' }}
-                  />
-                </td>
-                <td>
-                  <FaEdit
-                    onClick={() => handleEditClick(category)} // Open modal for editing
-                    style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
                   />
                 </td>
                 <td>
@@ -187,10 +182,10 @@ const App = () => {
       {isModalOpen && (
         <div className="modal-overlay" style={modalOverlayStyles}>
           <div className="modal-content" style={modalContentStyles}>
-            <h2>{isEditing ? 'Edit Country' : 'Add Country'}</h2>
+            <h2>{isEditing ? 'Edit Product' : 'Add Product'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label htmlFor="title" className="form-label">Country Name</label>
+                <label htmlFor="title" className="form-label">Product Name</label>
                 <input
                   type="text"
                   id="title"
@@ -202,7 +197,19 @@ const App = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="image" className="form-label">Upload Flag</label>
+                <label htmlFor="title" className="form-label">Product Price</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  className="form-control"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="image" className="form-label">Upload Image</label>
                 <input
                   type="text"
                   id="image"

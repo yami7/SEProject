@@ -11,6 +11,7 @@ import InappInfo from './InappInfo';
 import Dashboard from './Dashboard';
 import CountryManagement from './CountryManagement';
 import NewChallenge from './NewChallenge';
+import StoreManagement from './StoreManagement';
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="/CountryManagement" element={<CountryManagement />} />
                     <Route path="/NewChallenge" element={<NewChallenge />} /> {/* NewChallenge page */}
+                    <Route path="/StoreManagement" element={<StoreManagement />} /> 
                </Routes>
         
             </div>

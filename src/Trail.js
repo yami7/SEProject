@@ -4,6 +4,7 @@ import './Trail.css';
 import { FaEdit } from 'react-icons/fa';
 import './Country.css';
 import { useNavigate } from 'react-router-dom';
+import API_URL from './configapi.js';
 
 const Trail = () => {
     const navigate = useNavigate();
@@ -44,14 +45,14 @@ const Trail = () => {
             if (editingChallenge) {
                 // Edit existing challenge
                 response = await axios.put(
-                    `https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/update-challenge/${editingChallenge._id}`,
+                    `${API_URL}/v1/challenge/admin/update-challenge/${editingChallenge._id}`,
                     formData
                 );
                 setSuccessMessage('Challenge updated successfully!');
             } else {
                 // Add new challenge
                 response = await axios.post(
-                    'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/add-challenge',
+                    `${API_URL}/v1/challenge/admin/add-challenge`,
                     formData
                 );
                 setSuccessMessage('Challenge added successfully!');
@@ -76,7 +77,7 @@ const Trail = () => {
         setSuccessMessage('');
         try {
             const response = await axios.post(
-                'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/get-challenges'
+                'https://a858-2607-fb91-888b-8a4f-e187-5372-b3e7-46a6.ngrok-free.app/v1/challenge/get-challenges'
             );
             const challenges = Object.values(response.data?.data || {}).flat(); // Flatten the categories into a single array
             setChallenges(challenges);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Users.css';
+import API_URL from './configapi.js';
 
 const Users = () => {
     const [data, setData] = useState([]);
@@ -12,7 +13,7 @@ const Users = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post('https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/user/admin/get-users', {
+                const response = await axios.post(`${API_URL}/v1/user/admin/get-users`, {
                     "page": 1,
                     "perPage": 10
                 });

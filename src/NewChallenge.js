@@ -70,7 +70,7 @@ const NewChallenge = ({ initialData }) => {
 
         try {
             const response = await axios.post(
-                'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/add-challenge',
+                'https://a858-2607-fb91-888b-8a4f-e187-5372-b3e7-46a6.ngrok-free.app/v1/challenge/admin/add-challenge',
                 formData
             );
 

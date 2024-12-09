@@ -29,34 +29,38 @@ button {
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
 button:hover {
-    background-color: #008000;
+    background-color: #006600; /* Darker shade of green for hover effect */
 }
 
 input, select, textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 8px;
+    width: 100%; /* Ensure inputs take full width of form */
 }
+
 .create-button {
     padding: 5px 20px; /* Adjust the vertical and horizontal padding */
     font-size: 0.9rem; /* Slightly smaller font size */
     border-radius: 4px; /* Rounded corners */
-    width: auto; /* Allow the button to shrink based on the content */
-    display: inline-block; /* Ensure compact width */
     background-color: #008000;
     color: white;
     border: none;
     cursor: pointer;
+    display: inline-block; /* Align correctly with other inline elements */
 }
 
 .create-button:hover {
-    background-color: #008000;
+    background-color: #006600; /* Consistent hover effect */
 }
 
-.btn btn-primary{
-    color:#008000
-
+/* Specific styles for the map container to ensure it is visible */
+#map {
+    width: 100%; /* Full width to ensure visibility */
+    height: 400px; /* Adequate height for map visibility */
+    margin-top: 20px; /* Space above the map container */
 }

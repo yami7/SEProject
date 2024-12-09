@@ -10,7 +10,8 @@ import Notifications from './Notifications';
 import InappInfo from './InappInfo';
 import Dashboard from './Dashboard';
 import CountryManagement from './CountryManagement';
-import NewChallenge from './NewChallenge';
+import Challenge from './Challenge';
+import EditChallenge from './EditChallenge';
 
 
 
@@ -37,7 +38,8 @@ const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="/CountryManagement" element={<CountryManagement />} />
-                    <Route path="/NewChallenge" element={<NewChallenge />} /> {/* NewChallenge page */}
+                    <Route path="/Challenge" element={<Challenge />} /> {/* NewChallenge page */}
+                    <Route path="/EditChallenge" element={<EditChallenge />} />
                </Routes>
         
             </div>

@@ -1,60 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './NewChallenge.css';
+import Map from './map'; // Importing the Map component from map.js
+import { useNavigate } from 'react-router-dom';
 
 const NewChallenge = ({ initialData }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: '',
         challengeName: '',
         elevationGain: '',
         difficulty: '',
-        description: '',
+        howItWorks: '',
         countryId: '',
         challengeType: 'Day Hike',
         distance: '',
         price: '',
-        colorGradient: [],
-        image: '', // Add the image field
+        color1: '', // First color input for the gradient
+        color2: '', // Second color input for the gradient
+        image: '',
         isHide: false,
         withRedemption: false,
-        route: {
-            coordinates: [
-                {"longitude" : 114.1386328374189, "latitude" : 22.27983241126931},
-                {"longitude" : 114.135657598874, "latitude" : 22.27934880963214},
-                {"longitude": 114.1375258816053, "latitude": 22.27599517911032},
-                {"longitude": 114.149515705349,"latitude": 22.27118410260248}
-            ],
-        },
+        route: { coordinates: [] }, // Route coordinates
     });
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
+    // Load initial data if provided
     useEffect(() => {
         if (initialData) {
-            setFormData({
-                title: initialData.title || '',
-                challengeName: initialData.challengeName || '',
-                elevationGain: initialData.elevation || '',
-                difficulty: initialData.difficulty || '',
-                description: initialData.howItWorks || '',
-                countryId: initialData.countryId || '',
-                challengeType: 'Day Hike',
-                distance: initialData.distance || '',
-                price: initialData.price || '',
-                colorGradient: initialData.colorGradient || [],
-                image: initialData.image || '',
-                isHide:false,
-                withRedemption: false,
-                route: initialData.route || {
-                    coordinates: [
-                        { latitude: "22.27983241126931", longitude: "114.1386328374189" },
-                        { latitude: "22.27934880963214", longitude: "114.135657598874" },
-                    ],
-                },
-            });
+            setFormData({ ...formData, ...initialData });
         }
     }, [initialData]);
 
+    // Update form data on input change
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prevState) => ({
@@ -63,48 +43,77 @@ const NewChallenge = ({ initialData }) => {
         }));
     };
 
+    // Update route data from the Map component
+   const handleRouteUpdate = (routeData) => {
+    // routeData should contain { start, end, waypoints }
+    const coordinates = [
+        { "latitude": routeData.start.lat, "longitude": routeData.start.lng },
+        ...routeData.waypoints.map(point => ({ "latitude": point.lat, "longitude": point.lng })),
+        { "latitude": routeData.end.lat, "longitude": routeData.end.lng },
+    ];
+
+    setFormData(prevState => ({
+        ...prevState,
+        route: {
+            ...prevState.route,
+            coordinates,
+        },
+    }));
+};
+
+
+    // Submit form data to the API
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
 
         try {
-            const response = await axios.post(
-                'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/add-challenge',
-                formData
-            );
+            // Combine the two color gradients into one array
+            const combinedcolor = [formData.color1, formData.color2].filter(Boolean); // Filters out empty strings
 
-            console.log('API Response:', response.data);
+            const sanitizedData = {
+                ...formData,
+                color: combinedcolor, // Combined color gradient
+                route: {
+                    coordinates: formData.route.coordinates, // Include full coordinates
+                },
+            };
+
+            console.log('Sending data to API:', sanitizedData); // Debug log
+
+            const response = await axios.post(
+                'https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/admin/add-challenge',
+                sanitizedData
+            );
 
             if (response.data) {
                 setSuccess('Challenge added successfully!');
-                setFormData(response.data);
-                // setFormData({
-                //     title: '',
-                //     challengeName: '',
-                //     elevationGain: '',
-                //     difficulty: '',
-                //     description: '',
-                //     countryId: '',
-                //     challengeType: '',
-                //     distance: '',
-                //     price: '',
-                //     colorGradient: [],
-                //     image: '',
-                //     isHide: false,
-                //     withRedemption: false,
-                //     route: {
-                //         coordinates: [
-                //             { latitude: "22.27983241126931", longitude: "114.1386328374189" },
-                //             { latitude: "22.27934880963214", longitude: "114.135657598874" },
-                //         ],
-                //     },
-                // });
+                console.log('Challenge added successfully:', response.data); // Debug log
+                navigate('/trail');
+                // Optionally reset the form here
+                setFormData({
+                    title: '',
+                    challengeName: '',
+                    elevationGain: '',
+                    difficulty: '',
+                    howItWorks: '',
+                    countryId: '',
+                    challengeType: 'Day Hike',
+                    distance: '',
+                    price: '',
+                    color1: '',
+                    color2: '',
+                    image: '',
+                    isHide: false,
+                    withRedemption: false,
+                    route: { coordinates: [] },
+                });
             } else {
                 setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
             }
         } catch (err) {
-            console.error('Error adding challenge:', err.response?.data || err.message);
+            console.error('Error adding challenge:', err.response?.data || err.message); // Debug log
             setError('Error adding challenge: ' + (err.response?.data?.message || 'Please try again.'));
         }
     };
@@ -113,6 +122,7 @@ const NewChallenge = ({ initialData }) => {
         <div>
             <h1>Add New Challenge</h1>
             <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: 'auto' }}>
+                {/* Form Fields */}
                 <div className="mb-3">
                     <label className="form-label">Title</label>
                     <input
@@ -120,17 +130,6 @@ const NewChallenge = ({ initialData }) => {
                         name="title"
                         className="form-control"
                         value={formData.title}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Challenge Name</label>
-                    <input
-                        type="text"
-                        name="challengeName"
-                        className="form-control"
-                        value={formData.challengeName}
                         onChange={handleInputChange}
                         required
                     />
@@ -162,10 +161,10 @@ const NewChallenge = ({ initialData }) => {
                 <div className="mb-3">
                     <label className="form-label">Description</label>
                     <textarea
-                        name="description"
+                        name="howItWorks"
                         className="form-control"
                         rows="3"
-                        value={formData.description}
+                        value={formData.howItWorks}
                         onChange={handleInputChange}
                         required
                     ></textarea>
@@ -177,18 +176,6 @@ const NewChallenge = ({ initialData }) => {
                         name="countryId"
                         className="form-control"
                         value={formData.countryId}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Challenge Type</label>
-                    <input
-                        type="text"
-                        name="challengeType"
-                        className="form-control"
-                        disabled={true}
-                        value={formData.challengeType}
                         onChange={handleInputChange}
                         required
                     />
@@ -216,6 +203,30 @@ const NewChallenge = ({ initialData }) => {
                     />
                 </div>
                 <div className="mb-3">
+                    <label className="form-label">color 1 (Hex)</label>
+                    <input
+                        type="text"
+                        name="color1"
+                        className="form-control"
+                        value={formData.color1}
+                        onChange={handleInputChange}
+                        placeholder="#000000"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">color 2 (Hex)</label>
+                    <input
+                        type="text"
+                        name="color2"
+                        className="form-control"
+                        value={formData.color2}
+                        onChange={handleInputChange}
+                        placeholder="#FFFFFF"
+                        required
+                    />
+                </div>
+                <div className="mb-3">
                     <label className="form-label">Image URL</label>
                     <input
                         type="text"
@@ -226,29 +237,18 @@ const NewChallenge = ({ initialData }) => {
                         required
                     />
                 </div>
-                {/* <div className="mb-3">
-                    <label className="form-label">Hide Challenge</label>
-                    <input
-                        type="checkbox"
-                        name="isHide"
-                        className="form-check-input"
-                        checked={formData.isHide}
-                        onChange={handleInputChange}
-                    />
-                </div> */}
-                {/* <div className="mb-3">
-                    <label className="form-label">With Redemption</label>
-                    <input
-                        type="checkbox"
-                        name="withRedemption"
-                        className="form-check-input"
-                        checked={formData.withRedemption}
-                        onChange={handleInputChange}
-                    />
-                </div> */}
+
+                {/* Map */}
+                <Map onRouteUpdate={handleRouteUpdate} />
+
+                {/* Error and Success Messages */}
                 {error && <div className="text-danger mb-3">{error}</div>}
                 {success && <div className="text-success mb-3">{success}</div>}
-                <button type="submit" className="btn btn-primary">Add</button>
+
+                {/* Submit Button */}
+                <button type="submit" className="btn btn-success">
+                    Add Challenge
+                </button>
             </form>
         </div>
     );

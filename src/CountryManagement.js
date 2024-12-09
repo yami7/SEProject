@@ -22,7 +22,7 @@ const App = () => {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/country/admin/get-country',
+          'https://c3cb-2600-6c50-6700-fdf9-7822-9d96-c004-8494.ngrok-free.app/v1/country/admin/get-country',
           {
             headers: {
               'Content-Type': 'application/json',

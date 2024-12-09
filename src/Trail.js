@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Trail.css';
 import { FaEdit } from 'react-icons/fa';
-import './Country.css';
 import { useNavigate } from 'react-router-dom';
 
 const Trail = () => {
@@ -44,14 +43,14 @@ const Trail = () => {
             if (editingChallenge) {
                 // Edit existing challenge
                 response = await axios.put(
-                    `https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/update-challenge/${editingChallenge._id}`,
+                    `https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/admin/update-challenge/${editingChallenge._id}`,
                     formData
                 );
                 setSuccessMessage('Challenge updated successfully!');
             } else {
                 // Add new challenge
                 response = await axios.post(
-                    'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/admin/add-challenge',
+                    'https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/admin/add-challenge',
                     formData
                 );
                 setSuccessMessage('Challenge added successfully!');
@@ -76,7 +75,7 @@ const Trail = () => {
         setSuccessMessage('');
         try {
             const response = await axios.post(
-                'https://be05-2600-6c50-6700-fdf9-6559-352b-92dc-f4c8.ngrok-free.app/v1/challenge/get-challenges'
+                'https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/get-challenges'
             );
             const challenges = Object.values(response.data?.data || {}).flat(); // Flatten the categories into a single array
             setChallenges(challenges);
@@ -89,24 +88,16 @@ const Trail = () => {
         }
     };
 
-    // Handle editing of a challenge
-    const handleEditClick = (challenge) => {
-        setEditingChallenge(challenge);
-        setFormData({
-            title: challenge.title,
-            distance: challenge.distance,
-            image: challenge.image,
-            price: challenge.price,
-            withRedemption: challenge.withRedemption,
-            isHide: challenge.isHide,
-        });
-        toggleForm();
+    const handleAddTrailClick = () => {
+        navigate('/Challenge'); // Ensure this route is set up in your router configuration
     };
 
-    // Redirect to NewChallenge page
-    const handleAddTrailClick = () => {
-        navigate('/NewChallenge'); // Ensure this route is set up in your router configuration
+    // Updated handleEditClick function
+    const handleEditClick = (challenge) => {
+        console.log('Challenge data being passed:', challenge);
+        navigate('/EditChallenge', { state: { challenge } });
     };
+    
 
     return (
         <div className="trailpageonly">
@@ -149,7 +140,7 @@ const Trail = () => {
                                         <td>{new Date(challenge.createdAt).toLocaleDateString()}</td>
                                         <td>
                                             <FaEdit
-                                                onClick={() => handleEditClick(challenge)} // Open modal for editing
+                                                onClick={() => handleEditClick(challenge)}
                                                 style={{
                                                     cursor: 'pointer',
                                                     color: '#28a745',

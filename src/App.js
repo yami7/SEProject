@@ -12,6 +12,7 @@ import Dashboard from './Dashboard';
 import CountryManagement from './CountryManagement';
 import Challenge from './Challenge';
 import EditChallenge from './EditChallenge';
+import StoreManagement from './StoreManagement';
 
 
 
@@ -38,8 +39,9 @@ const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="/CountryManagement" element={<CountryManagement />} />
-                    <Route path="/Challenge" element={<Challenge />} /> {/* NewChallenge page */}
                     <Route path="/EditChallenge" element={<EditChallenge />} />
+                    <Route path="/Challenge" element={<Challenge />} /> {/* NewChallenge page */}
+                    <Route path="/StoreManagement" element={<StoreManagement />} /> 
                </Routes>
         
             </div>

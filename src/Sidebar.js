@@ -1,9 +1,9 @@
 // Sidebar.js
 import React, { useState } from 'react';
-import { FaBell, FaUsers, FaInfoCircle,FaFlag,FaMapMarkerAlt,FaStore } from 'react-icons/fa';
+import { FaBell, FaUsers, FaInfoCircle,FaFlag,FaMapMarkerAlt,FaStore,FaShoppingCart, FaShoppingBag } from 'react-icons/fa';
 import { GiTrail } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
-import LogoutModal from './Logout'; // Ensure this path is correct
+
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -65,13 +65,15 @@ const Sidebar = () => {
                         <FaStore /> {isOpen && 'Store Management'}
                     </Link>
                 </li>
+                <li>
+                    <Link to="/Orders">
+                        <FaShoppingBag /> {isOpen && 'Orders'}
+                        
+                    </Link>
+                </li>
             
             </ul>
-            <LogoutModal 
-                isOpen={modalOpen} 
-                onConfirm={confirmLogout} 
-                onCancel={cancelLogout} 
-            />
+           
         </div>
     );
 };

@@ -1,20 +1,46 @@
-// LogoutModal.js
-import React from 'react';
-import './Logout.css'; // Add CSS styles for the modal
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Use useNavigate for redirection
 
-const LogoutModal = ({ isOpen, onConfirm, onCancel }) => {
-    if (!isOpen) return null;
+const Logout = ({ isOpen, onClose, onConfirm }) => {
+  if (!isOpen) return null; // Don't render if the modal is not open
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <h2>Logout Confirmation</h2>
-                <p>Are you sure you want to log out?</p>
-                <button className="btn btn-danger" onClick={onConfirm}>Yes</button>
-                <button className="btn btn-secondary" onClick={onCancel}>No</button>
-            </div>
-        </div>
-    );
+  return (
+    <div style={overlayStyle}>
+      <div style={modalStyle}>
+        <h2>Are you sure you want to logout?</h2>
+        <button onClick={onConfirm} style={buttonStyle}>Yes</button>
+        <button onClick={onClose} style={buttonStyle}>No</button>
+      </div>
+    </div>
+  );
 };
 
-export default LogoutModal;
+const overlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000,
+};
+
+const modalStyle = {
+  backgroundColor: '#fff',
+  padding: '20px',
+  borderRadius: '10px',
+  textAlign: 'center',
+  minWidth: '300px',
+};
+
+const buttonStyle = {
+  margin: '10px',
+  padding: '10px 20px',
+  cursor: 'pointer',
+  fontSize: '16px',
+};
+
+export default Logout;

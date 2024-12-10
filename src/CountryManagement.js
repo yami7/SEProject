@@ -147,17 +147,17 @@ const App = () => {
         <table className="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Country</th>
-              <th>Flag</th>
+              <th>Id</th>
+              <th>Country Name</th>
+              <th>Country Flag</th>
               <th>Edit</th> {/* Add Edit column */}
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {response.map((category) => (
+            {response.map((category, index) => (
               <tr key={category._id}>
-                <td>{category._id}</td>
+                <td>{index+1}</td>
                 <td>{category.title}</td>
                 <td>
                   <img
@@ -202,7 +202,7 @@ const App = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="image" className="form-label">Upload Flag</label>
+                <label htmlFor="image" className="form-label">Country Flag URL</label>
                 <input
                   type="text"
                   id="image"

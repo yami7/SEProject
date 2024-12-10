@@ -51,11 +51,6 @@ const Sidebar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/Notifications">
-                        <FaBell /> {isOpen && 'Notifications'}
-                    </Link>
-                </li>
-                <li>
                     <Link to="/InappInfo">
                         <FaInfoCircle /> {isOpen && 'InappInfo'}
                     </Link>

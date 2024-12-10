@@ -3,6 +3,7 @@ import axios from 'axios';
 import './NewChallenge.css';
 import Map from './map'; // Importing the Map component from map.js
 import { useNavigate } from 'react-router-dom';
+import API_URL from './configapi.js';
 
 const NewChallenge = ({ initialData }) => {
     const navigate = useNavigate();
@@ -46,9 +47,12 @@ const NewChallenge = ({ initialData }) => {
     // Update route data from the Map component
    const handleRouteUpdate = (routeData) => {
     // routeData should contain { start, end, waypoints }
-    const coordinates = [
+    const coordinates = routeData.waypoint ? [
         { "latitude": routeData.start.lat, "longitude": routeData.start.lng },
-        ...routeData.waypoints.map(point => ({ "latitude": point.lat, "longitude": point.lng })),
+        {"latitude": routeData.waypoint?.lat, "longitude": routeData.waypoint?.lng},
+        { "latitude": routeData.end.lat, "longitude": routeData.end.lng },
+    ] : [
+        { "latitude": routeData.start.lat, "longitude": routeData.start.lng },
         { "latitude": routeData.end.lat, "longitude": routeData.end.lng },
     ];
 
@@ -82,36 +86,36 @@ const NewChallenge = ({ initialData }) => {
 
             console.log('Sending data to API:', sanitizedData); // Debug log
 
-            const response = await axios.post(
-                'https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/admin/add-challenge',
-                sanitizedData
-            );
+            // const response = await axios.post(
+            //     `${API_URL}/v1/challenge/admin/add-challenge`,
+            //     sanitizedData
+            // );
 
-            if (response.data) {
-                setSuccess('Challenge added successfully!');
-                console.log('Challenge added successfully:', response.data); // Debug log
-                navigate('/trail');
-                // Optionally reset the form here
-                setFormData({
-                    title: '',
-                    challengeName: '',
-                    elevationGain: '',
-                    difficulty: '',
-                    howItWorks: '',
-                    countryId: '',
-                    challengeType: 'Day Hike',
-                    distance: '',
-                    price: '',
-                    color1: '',
-                    color2: '',
-                    image: '',
-                    isHide: false,
-                    withRedemption: false,
-                    route: { coordinates: [] },
-                });
-            } else {
-                setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
-            }
+            // if (response.data) {
+            //     setSuccess('Challenge added successfully!');
+            //     console.log('Challenge added successfully:', response.data); // Debug log
+            //     navigate('/trail');
+            //     // Optionally reset the form here
+            //     setFormData({
+            //         title: '',
+            //         challengeName: '',
+            //         elevationGain: '',
+            //         difficulty: '',
+            //         howItWorks: '',
+            //         countryId: '',
+            //         challengeType: 'Day Hike',
+            //         distance: '',
+            //         price: '',
+            //         color1: '',
+            //         color2: '',
+            //         image: '',
+            //         isHide: false,
+            //         withRedemption: false,
+            //         route: { coordinates: [] },
+            //     });
+            // } else {
+            //     setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
+            // }
         } catch (err) {
             console.error('Error adding challenge:', err.response?.data || err.message); // Debug log
             setError('Error adding challenge: ' + (err.response?.data?.message || 'Please try again.'));
@@ -120,7 +124,7 @@ const NewChallenge = ({ initialData }) => {
 
     return (
         <div>
-            <h1>Add New Challenge</h1>
+            <h1>Add New Trail</h1>
             <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: 'auto' }}>
                 {/* Form Fields */}
                 <div className="mb-3">
@@ -247,7 +251,7 @@ const NewChallenge = ({ initialData }) => {
 
                 {/* Submit Button */}
                 <button type="submit" className="btn btn-success">
-                    Add Challenge
+                    Add Trail
                 </button>
             </form>
         </div>

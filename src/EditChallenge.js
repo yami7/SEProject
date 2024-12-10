@@ -3,6 +3,7 @@ import axios from 'axios';
 import './NewChallenge.css';
 import Map from './map'; // Importing the Map component from map.js
 import { useLocation, useNavigate } from 'react-router-dom';
+import API_URL from './configapi.js';
 
 const EditChallenge = () => {
     const location = useLocation();
@@ -90,7 +91,7 @@ const EditChallenge = () => {
         try {
             const color = [formData.color1, formData.color2].filter(Boolean); 
             const response = await axios.post(
-                `https://e278-2600-6c50-6700-fdf9-ade5-d7a8-727b-194.ngrok-free.app/v1/challenge/admin/edit-challenge`,
+                `${API_URL}/v1/challenge/admin/edit-challenge`,
                 {...formData,_id: formData._id, color}
             );
 
@@ -108,7 +109,7 @@ const EditChallenge = () => {
 
     return (
         <div>
-            <h1>Edit Challenge</h1>
+            <h1>Edit Trail</h1>
             <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: 'auto' }}>
                 {/* Form Fields */}
                 <div className="mb-3">
@@ -237,7 +238,7 @@ const EditChallenge = () => {
 
                 {/* Submit Button */}
                 <button type="submit" className="btn btn-success">
-                    Update Challenge
+                    Update Trail
                 </button>
             </form>
         </div>

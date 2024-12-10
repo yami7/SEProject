@@ -14,14 +14,14 @@ const App = () => {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          `${API_URL}/v1/product/admin/get-all-products`,
+          `${API_URL}/v1/product/admin/orders`,
           {
             headers: {
               'Content-Type': 'application/json',
             },
           }
         );
-        setResponse(result.data.data && result.data.data.productList && result.data.data.productList[0].products); // Access the product list
+        setResponse(result.data?.data); // Access the product list
       } catch (err) {
         setError('Error fetching data');
       } finally {
@@ -37,7 +37,7 @@ const App = () => {
       {loading && <div className="text-center">Loading...</div>}
       {error && <div className="text-center text-danger">Error: {error}</div>}
 
-      <h2>Product List</h2>
+      <h2>Order List</h2>
 
       {/* Product List Table */}
       {response && (
@@ -45,30 +45,28 @@ const App = () => {
           <thead>
             <tr>
               <th>Id</th>
-              <th>User Id</th>
-              <th>User Name</th>
+              <th>User Detail</th>
               <th>Product Name</th>
               <th>Product Price</th>
-              <th>Product Image</th>
               <th>User Address</th>
+              <th>Product Image</th>
             </tr>
           </thead>
           <tbody>
             {response.map((product, index) => (
               <tr key={product._id}>
                 <td>{index + 1}</td>
-                <td>{product.}</td>
-                <td>{product.}</td>
-                <td>{product.}</td>
-                <td>{product.}</td>
+                <td>{product.username}<br/>{product.email}</td>
+                <td>{product.title}</td>
+                <td>{product.price}</td>
+                <td>{product.address}</td>
                 <td>
                   <img
-                    src={product.immmage}
+                    src={product.img?.[0]}
                     alt={`Product ${product.title}`}
                     style={{ width: '50px', height: '30px' }}
                   />
                 </td>
-                <td>{product.addr}</td>
               </tr>
             ))}
           </tbody>

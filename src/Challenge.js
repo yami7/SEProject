@@ -86,36 +86,36 @@ const NewChallenge = ({ initialData }) => {
 
             console.log('Sending data to API:', sanitizedData); // Debug log
 
-            // const response = await axios.post(
-            //     `${API_URL}/v1/challenge/admin/add-challenge`,
-            //     sanitizedData
-            // );
+            const response = await axios.post(
+                `${API_URL}/v1/challenge/admin/add-challenge`,
+                sanitizedData
+            );
 
-            // if (response.data) {
-            //     setSuccess('Challenge added successfully!');
-            //     console.log('Challenge added successfully:', response.data); // Debug log
-            //     navigate('/trail');
-            //     // Optionally reset the form here
-            //     setFormData({
-            //         title: '',
-            //         challengeName: '',
-            //         elevationGain: '',
-            //         difficulty: '',
-            //         howItWorks: '',
-            //         countryId: '',
-            //         challengeType: 'Day Hike',
-            //         distance: '',
-            //         price: '',
-            //         color1: '',
-            //         color2: '',
-            //         image: '',
-            //         isHide: false,
-            //         withRedemption: false,
-            //         route: { coordinates: [] },
-            //     });
-            // } else {
-            //     setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
-            // }
+            if (response.data) {
+                setSuccess('Challenge added successfully!');
+                console.log('Challenge added successfully:', response.data); // Debug log
+                navigate('/trail');
+                // Optionally reset the form here
+                setFormData({
+                    title: '',
+                    challengeName: '',
+                    elevationGain: '',
+                    difficulty: '',
+                    howItWorks: '',
+                    countryId: '',
+                    challengeType: 'Day Hike',
+                    distance: '',
+                    price: '',
+                    color1: '',
+                    color2: '',
+                    image: '',
+                    isHide: false,
+                    withRedemption: false,
+                    route: { coordinates: [] },
+                });
+            } else {
+                setError('Failed to add challenge: ' + (response.data.message || 'Unexpected error.'));
+            }
         } catch (err) {
             console.error('Error adding challenge:', err.response?.data || err.message); // Debug log
             setError('Error adding challenge: ' + (err.response?.data?.message || 'Please try again.'));

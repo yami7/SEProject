@@ -204,7 +204,6 @@ const App = () => {
               <div className="mb-3">
                 <label htmlFor="image" className="form-label">Country Flag URL</label>
                 <input
-                  type="text"
                   id="image"
                   name="image"
                   className="form-control"

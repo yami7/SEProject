@@ -12,18 +12,17 @@ const App = () => {
 
   // State for modal and form data
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // Track if we're editing an existing country
   const [formData, setFormData] = useState({
-    id: '',
     title: '',
-    image: '',
+    price: '',
+    img: '',
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await axios.post(
-          `${API_URL}/v1/country/admin/get-country`,
+          `${API_URL}/v1/product/admin/get-all-products`,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -31,7 +30,8 @@ const App = () => {
           }
         );
         console.log('///', result);
-        setResponse(result.data.data.categories); // Access the categories array
+        setResponse(result.data.data.productList.products); // Access the categories array
+        console.log('result.data.data.productList.products')
       } catch (err) {
         setError('Error fetching data');
       } finally {
@@ -57,57 +57,33 @@ const App = () => {
 
     const requestData = {
       title: formData.title,
-      image: formData.image,
+      price: formData.price,
+      img: formData.img,
     };
 
     try {
-      const apiUrl = isEditing
-        ? `${API_URL}/v1/country/admin/edit-country`
-        : `${API_URL}/v1/country/admin/add-country`;
-        console.log()
-      const response = await axios.post(apiUrl, {
-        ...requestData,
-        ...(isEditing && { _id: formData.id }), // Include ID if editing
-      }, {
+      // Always use add-country API since editing is removed
+      const response = await axios.post(`${API_URL}/v1/product/admin/add-product`, requestData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (isEditing) {
-        // Update the existing country in the list
-        setResponse((prevResponse) =>
-          prevResponse.map((category) =>
-            category._id === formData.id ? { ...category, title: formData.title, image: formData.image } : category
-          )
-        );
-      } else {
-        // Add the new country to the list
-        setResponse((prevResponse) => [...prevResponse, response.data]);
-      }
+      // Add the new country to the list
+      setResponse((prevResponse) => [...prevResponse, response.data]);
 
       toggleModal(); // Close the modal after submission
-      setIsEditing(false); // Reset editing state
-      window.location.reload(); 
+      setFormData({ title: '', price: '', img: '' }); // Reset form data
     } catch (error) {
-      setError('Error saving country');
+      setError('Error saving product');
     }
   };
 
-  const handleEditClick = (category) => {
-    setFormData({
-      id: category._id,
-      title: category.title,
-      image: category.image,
-    });
-    setIsEditing(true); // Mark as editing
-    toggleModal(); // Open the modal
-  };
-   // Handle delete click - sends id to the backend for deletion
-   const handleDeleteClick = async (id) => {
+  // Handle delete click - sends id to the backend for deletion
+  const handleDeleteClick = async (id) => {
     try {
       const response = await axios.post(
-        `${API_URL}/v1/country/admin/delete-country`,
+        `${API_URL}/v1/product/admin/delete-product/675741638aca1795373b2244`,
         { id }, // Send the id to delete
         {
           headers: {
@@ -121,15 +97,12 @@ const App = () => {
         prevResponse.filter((category) => category._id !== id)
       );
 
-      // Optionally, set a success message here
       console.log('Country deleted successfully:', response.data);
     } catch (error) {
       setError('Error deleting country');
       console.error('Error deleting country:', error);
     }
   };
-
-  
 
   return (
     <div className="container mt-5">
@@ -138,8 +111,8 @@ const App = () => {
 
       <h2>Product List</h2>
 
-      
-      <button onClick={toggleModal} className=".add-btn" style={styles.addButton}>
+      {/* Add New Country Button */}
+      <button onClick={toggleModal} className="add-btn" style={styles.addButton}>
         Add New Product
       </button>
 
@@ -159,17 +132,17 @@ const App = () => {
               <tr key={category._id}>
                 <td>{category._id}</td>
                 <td>{category.title}</td>
-                <td>{category.Price}</td>
+                <td>{category.price}</td>
                 <td>
                   <img
-                    src={category.image}
-                    alt={`Product of ${category.title}`}
+                    src={category.img}
+                    alt={`Flag of ${category.title}`}
                     style={{ width: '50px', height: '30px' }}
                   />
                 </td>
                 <td>
                   <FaTrash
-                    onClick={() => handleDeleteClick(category._id)} // Open modal for editing
+                    onClick={() => handleDeleteClick(category._id)} // Handle delete click
                     style={{ cursor: 'pointer', color: '#28a745', fontSize: '20px' }}
                   />
                 </td>
@@ -182,7 +155,7 @@ const App = () => {
       {isModalOpen && (
         <div className="modal-overlay" style={modalOverlayStyles}>
           <div className="modal-content" style={modalContentStyles}>
-            <h2>{isEditing ? 'Edit Product' : 'Add Product'}</h2>
+            <h2>Add Product</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="title" className="form-label">Product Name</label>
@@ -197,25 +170,25 @@ const App = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="title" className="form-label">Product Price</label>
+                <label htmlFor="price" className="form-label">Product Price</label>
                 <input
-                  type="text"
-                  id="title"
-                  name="title"
+                  type="number"
+                  id="price"
+                  name="price"
                   className="form-control"
-                  value={formData.title}
+                  value={formData.price}
                   onChange={handleChange}
                   required
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="image" className="form-label">Upload Image</label>
+                <label htmlFor="img" className="form-label">Product Image</label>
                 <input
                   type="text"
-                  id="image"
-                  name="image"
+                  id="img"
+                  name="img"
                   className="form-control"
-                  value={formData.image}
+                  value={formData.img}
                   onChange={handleChange}
                   required
                 />
@@ -263,7 +236,7 @@ const styles = {
     zIndex: 1000,        // Ensure the button stays above other elements
     padding: '8px 15px', // Adds some padding for a better button size
     fontSize: '14px',    // Smaller font size for a more compact button
-    borderRadius: '5px' // Rounded corners for the button
+    borderRadius: '5px'  // Rounded corners for the button
   }
 };
 

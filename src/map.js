@@ -52,11 +52,14 @@ const Map = ({ onRouteUpdate }) => {
             const updatedPoints = [...prev];
             if (type === 'start') {
                 updatedPoints[0] = { lng, lat, marker };
-            } else if(type === 'waypoint'){
+            } 
+            else if(type === 'waypoint'){
                 updatedPoints[1] = { lng, lat, marker };
-            } else if (type === 'end') {
+            } 
+            else if (type === 'end') {
                 updatedPoints[2] = { lng, lat, marker };
-            } else {
+            } 
+            else {
                 updatedPoints.push({ lng, lat, marker });
             }
             return updatedPoints;
@@ -64,20 +67,20 @@ const Map = ({ onRouteUpdate }) => {
 
         // Close the context menu
         setContextMenu(null);
-
         // Trigger a route update if start and end points are available
         if (type === 'end' || type === 'start') {
             const startPoint = routePoints[0];
             const endPoint = type === 'end' ? { lng, lat } : routePoints[1];
+            const wayPoint = type === 'waypoint' ? {lng, lat} : routePoints[1];
             if (startPoint && endPoint) {
-                console.log('Sending coordinates to API:', startPoint, endPoint); // Debug log
-                await fetchRoute(startPoint, endPoint);
+                await fetchRoute(startPoint, wayPoint, endPoint);
             }
         }
     };
 
-    const fetchRoute = async (start, end) => {
-        const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+    const fetchRoute = async (start, waypoint, end) => {
+        let pathOnMap = waypoint ? `${start.lng},${start.lat};${waypoint?.lng},${waypoint?.lat};${end.lng},${end.lat}` : `${start.lng},${start.lat};${end.lng},${end.lat}`;
+        const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${pathOnMap}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
         console.log('API URL:', url); // Debug log
 
         try {
@@ -90,7 +93,7 @@ const Map = ({ onRouteUpdate }) => {
                 onRouteUpdate({
                     start,
                     end,
-                    waypoints: routePoints.slice(1, -1).map((point) => ({ lng: point.lng, lat: point.lat })),
+                    waypoint,
                     route, // Full route as returned by Mapbox
                 });
 
@@ -156,18 +159,17 @@ const Map = ({ onRouteUpdate }) => {
                     }}
                 >
                     <p>Choose an option:</p>
-                    {console.log('routePoints', routePoints)}
                     {!routePoints[0] && (
                         <button onClick={() => handleAddPoint('start')}>Set Start Point</button>
                     )}
                     {routePoints[0] && !routePoints[1] && (
-                        <>
                             <button onClick={() => handleAddPoint('waypoint')}>Set Waypoint</button>
-                            <button onClick={() => handleAddPoint('end')}>Set End Point</button>
-                        </>
+                    )}
+                    {routePoints[0] && !routePoints[1] && (
+                         <button onClick={() => handleAddPoint('end')}>Set End Point</button>
                     )}
                     {routePoints[0] && routePoints[1] && (
-                         <button onClick={() => handleAddPoint('start')}>Set Start Point</button>
+                         <button onClick={() => handleAddPoint('end')}>Set End Point</button>
                     )}
                 </div>
             )}

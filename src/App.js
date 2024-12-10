@@ -13,6 +13,7 @@ import CountryManagement from './CountryManagement';
 import Challenge from './Challenge';
 import EditChallenge from './EditChallenge';
 import StoreManagement from './StoreManagement';
+import Orders from './Orders'
 
 
 
@@ -41,7 +42,8 @@ const App = () => {
                     <Route path="/CountryManagement" element={<CountryManagement />} />
                     <Route path="/EditChallenge" element={<EditChallenge />} />
                     <Route path="/Challenge" element={<Challenge />} /> {/* NewChallenge page */}
-                    <Route path="/StoreManagement" element={<StoreManagement />} /> 
+                    <Route path="/StoreManagement" element={<StoreManagement />} />
+                    <Route path="/Orders" element={<Orders />} /> 
                </Routes>
         
             </div>

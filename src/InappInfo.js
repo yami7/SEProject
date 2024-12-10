@@ -187,10 +187,10 @@ We will maintain certain data that you transmit to the Site for the purpose of m
         Terms and Conditions 
 
       </button>
-      <button onClick={() => openModal(FAQ)}>
+      {/* <button onClick={() => openModal(FAQ)}>
         FAQ
 
-      </button>
+      </button> */}
 
       {isModalOpen && (
         <div className="modal" style={modalStyle}>

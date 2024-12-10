@@ -17,7 +17,6 @@ const Users = () => {
                     "page": 1,
                     "perPage": 10
                 });
-                //https://1177-2600-6c50-6700-fdf9-4d13-fd16-b4eb-4353.ngrok-free.app
                 setData(response.data?.data?.records); // Set data from API response(response.data)
             } catch (error) {
                 setError(error.message);
@@ -45,23 +44,25 @@ const Users = () => {
     return (
         <div className="background-container">
             <div className="container">
-                <h2>User Data</h2>
+                <h2>Users List</h2>
 
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Country Id</th>
                             <th>Admin</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map(user => (
+                        {currentItems.map((user, index) => (
                             <tr key={user.id}>
-                                <td>{user.id}</td>
+                                <td>{index+1}</td>
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
+                                <td>{user.countryId}</td>
                                 <td>{user.isAdmin ? "Yes" : "No"}</td>
                             </tr>
                         ))}

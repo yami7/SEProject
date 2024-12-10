@@ -29,9 +29,7 @@ const App = () => {
             },
           }
         );
-        console.log('///', result);
-        setResponse(result.data.data.productList.products); // Access the categories array
-        console.log('result.data.data.productList.products')
+        setResponse(result.data.data && result.data.data.productList && result.data.data.productList[0].products); // Access the categories array
       } catch (err) {
         setError('Error fetching data');
       } finally {
@@ -73,6 +71,7 @@ const App = () => {
       setResponse((prevResponse) => [...prevResponse, response.data]);
 
       toggleModal(); // Close the modal after submission
+      window.location.reload();
       setFormData({ title: '', price: '', img: '' }); // Reset form data
     } catch (error) {
       setError('Error saving product');
@@ -82,8 +81,8 @@ const App = () => {
   // Handle delete click - sends id to the backend for deletion
   const handleDeleteClick = async (id) => {
     try {
-      const response = await axios.post(
-        `${API_URL}/v1/product/admin/delete-product/675741638aca1795373b2244`,
+      const response = await axios.delete(
+        `${API_URL}/v1/product/admin/delete-product/${id}`,
         { id }, // Send the id to delete
         {
           headers: {
@@ -120,17 +119,17 @@ const App = () => {
         <table className="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Id</th>
               <th>Product Name</th>
-              <th>Price</th>
-              <th>Image</th>
+              <th>Product Price</th>
+              <th>Product Image</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {response.map((category) => (
+            {response.map((category, index) => (
               <tr key={category._id}>
-                <td>{category._id}</td>
+                <td>{index+1}</td>
                 <td>{category.title}</td>
                 <td>{category.price}</td>
                 <td>
@@ -182,7 +181,7 @@ const App = () => {
                 />
               </div>
               <div className="mb-3">
-                <label htmlFor="img" className="form-label">Product Image</label>
+                <label htmlFor="img" className="form-label">Product Image URL</label>
                 <input
                   type="text"
                   id="img"

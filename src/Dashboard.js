@@ -66,19 +66,19 @@ const Dashboard = () => {
             <div className="stats-container">
                 <div className="stat-card">
                     <h3>{stats.userCount}</h3>
-                    <p>User Count</p>
+                    <p>User</p>
                 </div>
                 <div className="stat-card">
                     <h3>{stats.completedCount}</h3>
-                    <p>Completed Count</p>
+                    <p>Completed Challenges</p>
                 </div>
                 <div className="stat-card">
                     <h3>{stats.totalDuration}</h3>
-                    <p>Total Duration</p>
+                    <p>Total Miles Hiked</p>
                 </div>
                 <div className="stat-card">
                     <h3>{stats.activeCount}</h3>
-                    <p>Active Count</p>
+                    <p>Live Challenges</p>
                 </div>
             </div>
         </div>

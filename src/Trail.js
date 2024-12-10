@@ -76,7 +76,7 @@ const Trail = () => {
         setSuccessMessage('');
         try {
             const response = await axios.post(
-                'https://a858-2607-fb91-888b-8a4f-e187-5372-b3e7-46a6.ngrok-free.app/v1/challenge/get-challenges'
+                `${API_URL}/v1/challenge/get-challenges`
             );
             const challenges = Object.values(response.data?.data || {}).flat(); // Flatten the categories into a single array
             setChallenges(challenges);
@@ -102,7 +102,7 @@ const Trail = () => {
 
     return (
         <div className="trailpageonly">
-            <h2>Trails</h2>
+            <h2>Trails List</h2>
             <div className="d-flex float-right">
                 <button onClick={handleAddTrailClick} className="add-btn">
                     Add Trail
@@ -113,16 +113,15 @@ const Trail = () => {
                 <p>Loading challenges...</p>
             ) : (
                 <div>
-                    {successMessage && <div className="alert alert-success">{successMessage}</div>}
+                    {/* {successMessage && <div className="alert alert-success">{successMessage}</div>} */}
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                     <table className="table table-striped">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Title</th>
-                                <th>Distance</th>
-                                <th>Challenge Type</th>
-                                <th>Elevation</th>
+                                <th>Distance (Miles)</th>
+                                <th>Elevation Gain (ft)</th>
                                 <th>Difficulty level</th>
                                 <th>Created Date</th>
                                 <th>Edit</th>
@@ -130,12 +129,11 @@ const Trail = () => {
                         </thead>
                         <tbody>
                             {challenges.length > 0 &&
-                                challenges.map((challenge) => (
+                                challenges.map((challenge, index) => (
                                     <tr key={challenge._id}>
-                                        <td>{challenge._id}</td>
+                                        <td>{index+1}</td>
                                         <td>{challenge.title}</td>
                                         <td>{challenge.distance}</td>
-                                        <td>{challenge.challengeType || 'N/A'}</td>
                                         <td>{challenge.elevation}</td>
                                         <td>{challenge.difficulty}</td>
                                         <td>{new Date(challenge.createdAt).toLocaleDateString()}</td>

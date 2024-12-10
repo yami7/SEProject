@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
+import API_URL from './configapi';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -31,7 +32,7 @@ const Login = () => {
             // Proceed only if email is verified
          
                 // Make the API call to login
-                const response = await axios.post('https://066a-2600-6c50-6700-fdf9-983f-77ff-710c-a082.ngrok-free.app/v1/user/login', {
+                const response = await axios.post(`${API_URL}/v1/user/login`, {
                     email,
                     password
         });
